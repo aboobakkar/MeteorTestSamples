@@ -1,7 +1,7 @@
 
 
 import { Template } from 'meteor/templating';
-
+import { Session } from 'meteor/session';
  
 import { Tasks } from '../api/tasks.js';
 import './body.html';
@@ -12,37 +12,44 @@ import './body.html';
   });
 });
    */
-/*
+
 Iron.utils.debug = true;
 
-Router.route('/Register', {
-    name: 'Register',
-    template: 'Register',
+Router.route('/Employee/:text', {
+    name: 'Employee',
+    template: 'Employee',
     data: {
-      title: 'Master Title'
+      
+      title: 'Employee Title',
+       data: function () { return Tasks.find(); }
+
+
+ /* data: function () {
+   
+        var aboo = this.params._id;
+        return Tasks.findOne({ _id:aboo });
+
+  
     },
-   //  tasks() {
-
-   // return Tasks.find({});
-
- // },
-
+  */
+}
 });
 
 
 Router.route('/', function () {
   this.layout('ApplicationLayout', {
-    //set a data context for the whole layout
+    
     data: {
-      title: 'Master Title'
+      title: 'Main Title'
     }
   });
 
-  // will just get the data context from layout
-  this.render('PageOne');
+  
 });
 
-Router.route('/two', function () {
+
+
+/*Router.route('/two', function () {
   this.layout('ApplicationLayout', {
     // set a data context for the whole layout
     data: {
@@ -63,37 +70,50 @@ Router.route('/two', function () {
 
 */
  
-Template.body.helpers({
+
+
+Template.ApplicationLayout.helpers({
 
    tasks() {
 
     return Tasks.find({});
 
   },
-'list': function(){
-        return Tasks.find({}, {sort: {name: 1}});
-    }
+
 });
 
-Template.Register.helpers({
+Template.ApplicationLayout.events({
+ 
+  
+    'click a': function (event) {
+    console.log(event.currentTarget.id);
+  }
+});
 
-tasks() {
+
+//Template.Employee.helpers({
+   // data: function () { return Tasks.find(); }
+  
+//data: function () {
+   //     var aboo = this.params._id;
+   //     return Tasks.findOne({ _id: aboo });
+  
+  //  },
+  
+
+/*tasks() {
 
     return Tasks.find({});
 
-  },
-});
+  }, */
+  //list:function(){
+ //   return session.get("currentId");
+    
+ // }
+//});
 
 
 
-Template.body.events({
 
- 
 
-});
-Template.Register.events({
-   'click': function(){
-        console.log("You clicked something");
-    }
-})
 
